@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { systemMessagesStore } from "../lib/system-messages";
+  import { systemMessagesStore } from "@lib/system-messages.js";
 </script>
 
 {#each Object.keys($systemMessagesStore) as key}
