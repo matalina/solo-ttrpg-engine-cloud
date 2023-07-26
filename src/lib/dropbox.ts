@@ -135,11 +135,19 @@ async function call(url: string, data: any) {
   return await response.json();
 }
 
+interface RequestObject {
+  method: string;
+  headers: {
+    [key: string]: string;
+  }
+  body?: string;
+}
+
 async function request(path: string, method: string, body: any = null) {
   const url = `${apiUrl}2/${path}`;
 
   const tokens = await getToken();
-  const data = {
+  const data: RequestObject = {
     method,
     headers: {
       'authorization': `Bearer ${tokens.accessToken}`
