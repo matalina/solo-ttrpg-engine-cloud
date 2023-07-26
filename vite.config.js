@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
+import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import postcss from './postcss.config.js';
 import path from 'path';
 //import { VitePWA } from 'vite-plugin-pwa'
@@ -18,6 +18,7 @@ export default defineConfig({
   },
   plugins: [
     vitePreprocess(),
+    svelte(),
     // VitePWA({
     //   registerType: 'autoUpdate',
     //   workbox: {

@@ -38,7 +38,12 @@ export function systemMessages() {
     }, MESSAGE_TIMEOUT);
   }
 
+  function close(key: number|string) {
+    remove(parseInt(key.toString()));
+  }
+
   return {
     send,
+    close,
   }
 }

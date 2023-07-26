@@ -24,5 +24,10 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-pro": "^6.4.0"
+  },
+  "imports": {
+    "@/*": "./src/*",
+    "@components/*": "./src/components/**/*",
+    "@lib/*": "./src/lib/**/*"
   }
 }
