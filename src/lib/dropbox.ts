@@ -3,8 +3,8 @@ import { systemMessages } from '@lib/system-messages.js';
 
 const baseUrl = 'https://www.dropbox.com/';
 const apiUrl = 'https://api.dropboxapi.com/';
-const DROPBOX_CLIENT_ID = '0ak63orlrrzd0ox';
-const DROPBOX_CLIENT_SECRET = '8obfx14y20e9eg0';
+const DROPBOX_CLIENT_ID = process.env.DROPBOX_CLIENT_ID;
+const DROPBOX_CLIENT_SECRET = process.env.DROPBOX_CLIENT_SECRET;
 
 export interface DropboxToken {
   accessToken: string;
