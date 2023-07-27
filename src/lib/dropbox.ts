@@ -1,10 +1,21 @@
 import { writable } from "svelte/store";
 import { systemMessages } from '@lib/system-messages.js';
 
+interface DropboxCredentials {
+  clientId: string;
+  secret: string;
+}
+
 const baseUrl = 'https://www.dropbox.com/';
 const apiUrl = 'https://api.dropboxapi.com/';
-const DROPBOX_CLIENT_ID = process.env.DROPBOX_CLIENT_ID;
-const DROPBOX_CLIENT_SECRET = process.env.DROPBOX_CLIENT_SECRET;
+
+const response = await fetch('.netlify/functions/dropbox', {
+  method: 'post',
+});
+const dpx: DropboxCredentials = await response.json();
+
+const DROPBOX_CLIENT_ID = dpx.clientId;
+const DROPBOX_CLIENT_SECRET = dpx.secret;
 
 export interface DropboxToken {
   accessToken: string;
