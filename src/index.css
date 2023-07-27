@@ -26,6 +26,7 @@
   .button {
     @apply px-3 py-2;
     @apply bg-amber-200 text-amber-800 border-amber-800 hover:bg-amber-400 focus:bg-amber-400;
-    @apply  rounded-md;
+    @apply rounded-md;
+    @apply disabled:opacity-75 disabled:cursor-not-allowed;
   }
 }
