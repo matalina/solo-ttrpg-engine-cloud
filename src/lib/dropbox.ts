@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 import { systemMessages } from '@lib/system-messages.js';
+import { get } from "http";
 
 interface DropboxCredentials {
   clientId: string;
@@ -9,13 +10,12 @@ interface DropboxCredentials {
 const baseUrl = 'https://www.dropbox.com/';
 const apiUrl = 'https://api.dropboxapi.com/';
 
-const response = await fetch('.netlify/functions/dropbox', {
-  method: 'post',
-});
-const dpx: DropboxCredentials = await response.json();
-
-const DROPBOX_CLIENT_ID = dpx.clientId;
-const DROPBOX_CLIENT_SECRET = dpx.secret;
+async function getCredentials(): Promise<DropboxCredentials> {
+  const response = await fetch('.netlify/functions/dropbox', {
+    method: 'post',
+  });
+  return await response.json();
+}
 
 export interface DropboxToken {
   accessToken: string;
@@ -49,11 +49,13 @@ async function refreshToken(token: DropboxToken) {
   const loc = new URL(window.location.href);
   const uri = `${loc.protocol}//${loc.host}`;
 
+  const { clientId, secret}  = await getCredentials();
+
   const data = {
     refresh_token: token.refreshToken,
     grant_type: 'refresh_token',
-    client_id: DROPBOX_CLIENT_ID,
-    client_secret: DROPBOX_CLIENT_SECRET,
+    client_id: clientId,
+    client_secret: secret,
   };
 
   const result:any  = await call(url,data);
@@ -79,7 +81,9 @@ async function authorize() {
   const url = new URL(window.location.href);
   const uri = `${url.protocol}//${url.host}`;
 
-  window.location.href =  `${baseUrl}oauth2/authorize?client_id=${DROPBOX_CLIENT_ID}&token_access_type=offline&response_type=code&redirect_uri=${uri}`
+  const { clientId } = await getCredentials();
+
+  window.location.href =  `${baseUrl}oauth2/authorize?client_id=${clientId}&token_access_type=offline&response_type=code&redirect_uri=${uri}`
 }
 
 async function access() {
@@ -91,12 +95,14 @@ async function access() {
 
   if (!code) return;
 
+  const { clientId, secret}  = await getCredentials();
+
   const data = {
     code,
     grant_type: 'authorization_code',
     redirect_uri: uri,
-    client_id: DROPBOX_CLIENT_ID,
-    client_secret: DROPBOX_CLIENT_SECRET,
+    client_id: clientId,
+    client_secret: secret,
   };
 
   const result:any  = await call(url,data);
