@@ -6,6 +6,7 @@ import { writable } from 'svelte/store';
 export const onlineStore = writable<boolean>(true);
 export const modeStore = writable<string>('brainstorm'); // story, brainstorm
 export const savedGameStore = writable<string|null>(null); // id of game
+export const systemStore = writable<string>('games'); // games, folders, characters, map, media
 
 window.addEventListener('online',  updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);

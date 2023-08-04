@@ -1,23 +1,23 @@
 <script lang="ts">
   import Icon from './Icon.svelte';
-  import { modeStore } from '@/main.ts';
+  import { systemStore } from '@/main.ts';
   export let type;
   export let icon;
   export let mode;
 
-  $: active = $modeStore === mode;
+  $: active = $systemStore === mode;
 
-  function changeMode(mode: string) {
-    $modeStore = mode;
+  function changeSystem(mode: string) {
+    $systemStore = mode;
   }
 
 </script>
 
 <button
-  class="button w-full mb-1"
+  class="button w-full mb-1 mr-1"
   class:active
   title={mode}
-  on:click={() => changeMode(mode)}>
+  on:click={() => changeSystem(mode)}>
   <Icon {type} name={icon} />
 </button>
 
